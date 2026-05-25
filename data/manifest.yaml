@@ -1,0 +1,23 @@
+package: pydynwrap
+version: 0.1.0
+upstream:
+  name: dynwrap
+  version: 1.3.0
+  source: https://github.com/dynverse/dynwrap
+algorithm_class: deterministic
+fixture:
+  path: data/reference.json
+  description: |
+    3-branch tent trajectory (1 stem milestone A + 3 branch ends B/C/D),
+    30 cells equally distributed along the 3 edges.
+reference_command: tests/r_reference_driver.R
+candidate_command: tests/_run_candidate.py
+outputs:
+  - name: geodesic_distances
+    metric: max_abs_err
+    threshold: 1.0e-6
+    class: deterministic
+    notes: |
+      Byte-equivalent expectation: pydynwrap uses scipy/networkx whereas
+      R dynwrap uses igraph, but the underlying Dijkstra is identical and
+      the milestone graph + tent geometry is reproduced verbatim.

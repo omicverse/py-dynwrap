@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydynwrap-bio"
+version = "0.1.0"
+description = "Pure-Python port of dynwrap — single-cell trajectory data wrapper (Saelens et al. Nat Biotechnol 2019)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Zehua Zeng", email = "starlitnightly@163.com" }]
+keywords = ["single-cell", "trajectory", "dynwrap", "dynverse", "benchmark"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = ["numpy>=1.23", "scipy>=1.10", "pandas>=1.5", "networkx>=2.8"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://github.com/omicverse/py-dynwrap"
+"R upstream" = "https://github.com/dynverse/dynwrap"
+
+[tool.setuptools.packages.find]
+include = ["pydynwrap*"]
+exclude = ["tests*", "examples*", "dynwrap-ref*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::RuntimeWarning"]
