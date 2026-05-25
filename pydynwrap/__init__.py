@@ -26,6 +26,8 @@ from .trajectory import (
     add_dimred,
     add_expression,
     add_cell_waypoints,
+    group_onto_nearest_milestones,
+    group_onto_trajectory_edges,
 )
 from .convert import (
     convert_progressions_to_milestone_percentages,
@@ -53,6 +55,8 @@ __all__ = [
     "add_dimred",
     "add_expression",
     "add_cell_waypoints",
+    "group_onto_nearest_milestones",
+    "group_onto_trajectory_edges",
     "convert_progressions_to_milestone_percentages",
     "convert_milestone_percentages_to_progressions",
     "calculate_geodesic_distances",

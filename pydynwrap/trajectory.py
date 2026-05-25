@@ -332,6 +332,34 @@ def add_expression(
     return traj
 
 
+def group_onto_nearest_milestones(traj: Trajectory) -> pd.Series:
+    """For each cell, return the milestone with the highest milestone_percentage.
+
+    Mirrors R `dynwrap::group_onto_nearest_milestones`.
+    """
+    if traj.milestone_percentages is None:
+        raise ValueError("trajectory has no milestone_percentages")
+    mp = traj.milestone_percentages
+    idx = mp.groupby("cell_id")["percentage"].idxmax()
+    nearest = mp.loc[idx].set_index("cell_id")["milestone_id"]
+    return nearest.reindex(traj.cell_ids)
+
+
+def group_onto_trajectory_edges(traj: Trajectory) -> pd.Series:
+    """For each cell, return its edge as a string "from___to".
+
+    Mirrors R `dynwrap::group_onto_trajectory_edges`.
+    """
+    if traj.progressions is None:
+        raise ValueError("trajectory has no progressions")
+    p = traj.progressions.copy()
+    # If a cell appears on multiple edges, take the one with highest percentage
+    idx = p.groupby("cell_id")["percentage"].idxmax()
+    sub = p.loc[idx].set_index("cell_id")
+    edges = sub["from"].astype(str) + "___" + sub["to"].astype(str)
+    return edges.reindex(traj.cell_ids)
+
+
 def add_cell_waypoints(traj: Trajectory, n_waypoints: int = 100,
                        seed: int = 42) -> Trajectory:
     """Pick n_waypoints cells evenly-spaced along the trajectory (random if no pt)."""
